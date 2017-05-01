@@ -23,7 +23,7 @@ sure that you have at least Postgres 9.2 installed. On both Mac OS X and
 SmartOS:
 
 ```
-pkgin in postgresql92-client postgresql92-server
+$ pkgin in postgresql92-client postgresql92-server
 ```
 
 Each additional Moray connected to a Postgres instance maintains an additional
@@ -32,6 +32,17 @@ can hit Postgres' maximum connection limit, which will prevent spawning new
 instances. This is normally not an issue, but can be easy to hit with Postgres
 9.2 on Mac OS X, where the max is 20. If that happens to you, newer versions of
 Postgres can help alleviate the issue.
+
+There is also a simple tool for starting up a temporary Moray instance, if you
+just want something to point at while working on the Moray CLI tools, or running
+the [moray-test-suite](https://github.com/joyent/moray-test-suite/):
+
+```
+$ ./bin/run-sandbox -p 2020
+```
+
+If you pass `--cover`, then it will also produce a coverage report for the Moray
+server when it exits.
 
 ## Examples
 
