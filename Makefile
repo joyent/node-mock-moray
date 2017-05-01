@@ -45,7 +45,9 @@ all: $(TAPE)
 	$(NPM) rebuild
 
 $(ESLINT): | $(NPM_EXEC)
-	$(NPM) install
+	$(NPM) install \
+	    eslint@`json -f package.json devDependencies.eslint` \
+	    eslint-plugin-joyent@`json -f package.json devDependencies.eslint-plugin-joyent`
 
 $(ISTANBUL): | $(NPM_EXEC)
 	$(NPM) install

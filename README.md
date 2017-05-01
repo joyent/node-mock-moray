@@ -5,7 +5,7 @@
 -->
 
 <!--
-    Copyright 2016, Joyent, Inc.
+    Copyright 2017, Joyent, Inc.
 -->
 
 # node-moray-sandbox
@@ -19,11 +19,19 @@ contribution guidelines, issues, and general documentation, visit the main
 
 This is a node library for spinning up a temporary Moray server that can be
 used for unit testing programs that depend on Moray. Before running, make
-sure that you have Postgres 9.2 installed. On both Mac OS X and SmartOS:
+sure that you have at least Postgres 9.2 installed. On both Mac OS X and
+SmartOS:
 
 ```
 pkgin in postgresql92-client postgresql92-server
 ```
+
+Each additional Moray connected to a Postgres instance maintains an additional
+set of connections to the database. With enough Moray instances running, you
+can hit Postgres' maximum connection limit, which will prevent spawning new
+instances. This is normally not an issue, but can be easy to hit with Postgres
+9.2 on Mac OS X, where the max is 20. If that happens to you, newer versions of
+Postgres can help alleviate the issue.
 
 ## Examples
 
