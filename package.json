@@ -2,7 +2,7 @@
   "name": "moray-sandbox",
   "description": "Library for managing temporary, sandboxed Moray instances",
   "main": "./lib/index.js",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "keywords": [ "moray" ],
   "repository": {
     "type": "git",
@@ -13,6 +13,7 @@
     "bunyan": "^1.8.5",
     "clone": "1.0.2",
     "forkexec": "1.1.0",
+    "jsprim": "1.4.0",
     "moray-server": "git+https://github.com/joyent/moray.git#3e9f411",
     "uuid": "3.0.0",
     "vasync": "1.6.4",
