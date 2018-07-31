@@ -29,12 +29,22 @@ JSL_CONF_NODE	= tools/jsl.node.conf
 JSL_FILES_NODE	= $(JS_FILES)
 JSSTYLE_FILES	= $(JS_FILES)
 JSSTYLE_FLAGS	= -f tools/jsstyle.conf
-ESLINT		= ./node_modules/.bin/eslint
-ESLINT_CONF	= tools/eslint.node.conf
 ESLINT_FILES	= $(JS_FILES)
 
+ifeq ($(shell uname -s),SunOS)
+	NODE_PREBUILT_VERSION =	v6.14.3
+	NODE_PREBUILT_TAG =	zone
+	NODE_PREBUILT_IMAGE =	18b094b0-eb01-11e5-80c1-175dac7ddf02
+endif
+
 include ./tools/mk/Makefile.defs
-include ./tools/mk/Makefile.smf.defs
+ifeq ($(shell uname -s),SunOS)
+	include ./tools/mk/Makefile.node_prebuilt.defs
+else
+	NODE := node
+	NPM := $(shell which npm)
+	NPM_EXEC=$(NPM)
+endif
 
 #
 # Repo-specific targets
@@ -43,11 +53,6 @@ include ./tools/mk/Makefile.smf.defs
 .PHONY: all
 all: $(TAPE)
 	$(NPM) rebuild
-
-$(ESLINT): | $(NPM_EXEC)
-	$(NPM) install \
-	    eslint@`json -f package.json devDependencies.eslint` \
-	    eslint-plugin-joyent@`json -f package.json devDependencies.eslint-plugin-joyent`
 
 $(ISTANBUL): | $(NPM_EXEC)
 	$(NPM) install
@@ -59,11 +64,10 @@ CLEAN_FILES += ./node_modules/
 
 .PHONY: test
 test: $(ISTANBUL) $(FAUCET)
-	$(ISTANBUL) cover --print none test/unit/run.js | $(FAUCET)
-
-.PHONY: check
-check:: $(ESLINT)
-	$(ESLINT) -c $(ESLINT_CONF) $(ESLINT_FILES)
+	$(NODE) $(ISTANBUL) cover --print none test/unit/run.js | $(FAUCET)
 
 include ./tools/mk/Makefile.deps
+ifeq ($(shell uname -s),SunOS)
+	include ./tools/mk/Makefile.node_prebuilt.targ
+endif
 include ./tools/mk/Makefile.targ
