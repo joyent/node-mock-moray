@@ -5,7 +5,7 @@
 #
 
 #
-# Copyright 2016, Joyent, Inc.
+# Copyright 2018, Joyent, Inc.
 #
 
 #
@@ -32,7 +32,7 @@ JSSTYLE_FLAGS	= -f tools/jsstyle.conf
 ESLINT_FILES	= $(JS_FILES)
 
 ifeq ($(shell uname -s),SunOS)
-	NODE_PREBUILT_VERSION =	v6.14.3
+	NODE_PREBUILT_VERSION =	v6.15.1
 	NODE_PREBUILT_TAG =	zone
 	NODE_PREBUILT_IMAGE =	18b094b0-eb01-11e5-80c1-175dac7ddf02
 endif
